@@ -12,10 +12,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
+import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class Utilities {
     private static final List<Pose> availablePoses = ImmutableList.of(Pose.STANDING, Pose.CROUCHING);
@@ -32,21 +35,22 @@ public class Utilities {
         return canEntitySit(level, new BlockPos(Math.floor(vec.x), Math.floor(vec.y - .03), Math.floor(vec.z)), pose);
     }
 
-    public static boolean isOccupied(Level level, BlockPos pos) {
-        return !level.getEntitiesOfClass(SittableEntity.class, new AABB(pos.getX() + .0625, pos.getY(), pos.getZ() + .0625,
-                pos.getX() + .9375, pos.getY() + 1.5, pos.getZ() + .9375)).isEmpty();
+    public static boolean isOccupied(Level level, BlockPos pos, Vec3 center) {
+        final Vec3 real = center.add(pos.getX(), pos.getY(), pos.getZ());
+        return !level.getEntitiesOfClass(SittableEntity.class, new AABB(real.add(-.1, -.1, -.1), real.add(.1, .1, .1))).isEmpty();
     }
 
-    public static boolean trySit(Level level, BlockPos pos, BlockState state, Player player) {
+    public static boolean trySit(Level level, BlockPos pos, BlockState state, @Nullable BlockHitResult hit, Player player) {
         final SittableRegistry registry = SittableRegisterEvent.getSittables().get(state.getBlock());
         if (registry == null) return false;
-        final double height = registry.height().applyAsDouble(state, player);
-        if (height == Double.MIN_VALUE) return false;
-        if (Utilities.isOccupied(level, pos)) {
+        final Optional<Vec3> o = registry.offset().apply(state, player, Optional.ofNullable(hit));
+        if (o.isEmpty()) return false;
+        final Vec3 vec = o.get();
+        if (Utilities.isOccupied(level, pos, vec)) {
             player.displayClientMessage(Messages.OCCUPIED.getComponent(), true);
             return true;
         }
-        final SittableEntity sittable = new SittableEntity(level, pos.getX() + .5, pos.getY() + height, pos.getZ() + .5);
+        final SittableEntity sittable = new SittableEntity(level, pos.getX() + vec.x, pos.getY() + vec.y, pos.getZ() + vec.z);
         level.addFreshEntity(sittable);
         if (player.isPassenger()) player.stopRiding();
         player.startRiding(sittable);
