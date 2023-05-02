@@ -40,7 +40,7 @@ public class Utilities {
     public static boolean trySit(Level level, BlockPos pos, BlockState state, Player player) {
         final SittableRegistry registry = SittableRegisterEvent.getSittables().get(state.getBlock());
         if (registry == null) return false;
-        final double height = registry.height().applyAsDouble(state);
+        final double height = registry.height().applyAsDouble(state, player);
         if (height == Double.MIN_VALUE) return false;
         if (Utilities.isOccupied(level, pos)) {
             player.displayClientMessage(Messages.OCCUPIED.getComponent(), true);

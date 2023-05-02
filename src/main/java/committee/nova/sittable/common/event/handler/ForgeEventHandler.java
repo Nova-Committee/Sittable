@@ -22,6 +22,6 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public static void onRegister(SittableRegisterEvent e) {
-        if (Utilities.isInDevEnv()) e.registerSittable(new SittableRegistry(Blocks.OAK_SLAB, s -> .5));
+        if (Utilities.isInDevEnv()) e.registerSittable(new SittableRegistry(Blocks.OAK_SLAB, (s, p) -> .5));
     }
 }
