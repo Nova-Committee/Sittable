@@ -1,0 +1,4 @@
+{
+  "msg.sittable.occupied": "The seat is occupied",
+  "msg.sittable.wrong_pose": "You're not in the right pose"
+}
