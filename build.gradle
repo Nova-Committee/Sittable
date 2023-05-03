@@ -22,10 +22,11 @@ buildscript {
 
 apply plugin: 'forge'
 apply plugin: 'idea'
+apply plugin: 'maven-publish'
 
 version = "${version}"
 group = "committee.nova.sittable.forge" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "sittable-1.7.10"
+archivesBaseName = "Sittable-Forge-1.7.10"
 def mcVersion = "1.7.10"
 
 targetCompatibility = sourceCompatibility = '1.8'
@@ -57,5 +58,26 @@ processResources {
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'sittable-1.7.10'
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        maven {
+            name = "release"
+            url = 'https://maven.nova-committee.cn/releases'
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
     }
 }
