@@ -3,8 +3,8 @@ package committee.nova.sittable.common.util;
 import com.google.common.collect.ImmutableList;
 import committee.nova.sittable.common.entity.impl.SittableEntity;
 import committee.nova.sittable.common.event.impl.SittableRegisterEvent;
+import committee.nova.sittable.common.msg.Messages;
 import committee.nova.sittable.common.registry.type.SittableRegistry;
-import committee.nova.sittable.common.sittable.Messages;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
@@ -27,12 +27,16 @@ public class Utilities {
         return !FMLEnvironment.production;
     }
 
-    public static boolean canEntitySit(Level level, BlockPos pos, Pose pose) {
-        return !level.getBlockState(pos).getMaterial().equals(Material.AIR) && availablePoses.contains(pose);
+    public static boolean isSeatValid(Level level, BlockPos pos) {
+        return !level.getBlockState(pos).getMaterial().equals(Material.AIR);
     }
 
-    public static boolean canEntitySit(Level level, Vec3 vec, Pose pose) {
-        return canEntitySit(level, new BlockPos(Math.floor(vec.x), Math.floor(vec.y - .03), Math.floor(vec.z)), pose);
+    public static boolean isSeatValid(Level level, Vec3 vec) {
+        return isSeatValid(level, new BlockPos(Math.floor(vec.x), Math.floor(vec.y - .03), Math.floor(vec.z)));
+    }
+
+    public static boolean isPoseValid(Pose pose) {
+        return availablePoses.contains(pose);
     }
 
     public static boolean isOccupied(Level level, BlockPos pos, Vec3 center) {

@@ -6,6 +6,8 @@ import committee.nova.sittable.common.util.Utilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,7 +20,6 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public static void onInteract(PlayerInteractEvent.RightClickBlock e) {
         final Level level = e.getWorld();
-        if (level.isClientSide) return;
         final BlockPos pos = e.getPos();
         e.setCanceled(Utilities.trySit(level, pos, level.getBlockState(pos), e.getHitVec(), e.getPlayer()));
     }
@@ -26,6 +27,7 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public static void onRegister(SittableRegisterEvent e) {
         if (Utilities.isInDevEnv()) e.registerSittable(new SittableRegistry(Blocks.OAK_SLAB,
-                (s, p, h) -> Optional.of(new Vec3(.5, .5, .5))));
+                (s, p, h) -> (p.isCrouching() || !s.getValue(SlabBlock.TYPE).equals(SlabType.BOTTOM)) ? Optional.empty()
+                        : Optional.of(new Vec3(.5, .5, .5))));
     }
 }

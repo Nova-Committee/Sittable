@@ -1,10 +1,11 @@
 package committee.nova.sittable.common.entity.impl;
 
 import committee.nova.sittable.common.entity.init.EntityInit;
-import committee.nova.sittable.common.sittable.Messages;
+import committee.nova.sittable.common.msg.Messages;
 import committee.nova.sittable.common.util.Utilities;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -25,6 +26,9 @@ public class SittableEntity extends Entity {
     public SittableEntity(EntityType<?> t, Level l) {
         super(t, l);
         setInvulnerable(true);
+        setInvisible(true);
+        setNoGravity(true);
+        noPhysics = true;
     }
 
     public SittableEntity(Level world, double x, double y, double z) {
@@ -63,11 +67,13 @@ public class SittableEntity extends Entity {
         tick++;
         tick &= 15;
         if (tick != 0) return;
-        for (final var p : passengers)
-            if (!Utilities.canEntitySit(level, position(), p.getPose())) {
-                p.stopRiding();
-                if (p instanceof Player player) player.displayClientMessage(Messages.WRONG_POSE.getComponent(), true);
-            }
+        for (final var p : passengers) {
+            final Component msg = Utilities.isPoseValid(p.getPose()) ?
+                    Utilities.isSeatValid(level, position()) ? null : Messages.INVALID.getComponent() : Messages.WRONG_POSE.getComponent();
+            if (msg == null) continue;
+            p.stopRiding();
+            if (p instanceof Player player) player.displayClientMessage(msg, true);
+        }
         if (getPassengers().isEmpty()) remove(RemovalReason.DISCARDED);
         //super.tick();
     }

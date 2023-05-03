@@ -1,4 +1,5 @@
 {
-  "msg.sittable.occupied": "这个座位被占用了",
+  "msg.sittable.invalid": "座位不可用",
+  "msg.sittable.occupied": "座位被占用",
   "msg.sittable.wrong_pose": "姿势不佳"
 }

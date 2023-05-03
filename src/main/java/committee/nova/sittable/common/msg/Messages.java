@@ -1,9 +1,10 @@
-package committee.nova.sittable.common.sittable;
+package committee.nova.sittable.common.msg;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 
 public enum Messages {
+    INVALID("invalid"),
     WRONG_POSE("wrong_pose"),
     OCCUPIED("occupied");
     private final String key;
