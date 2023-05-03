@@ -46,7 +46,7 @@ public class SittableEntity extends Entity {
         if (!Utilities.canEntitySit(worldObj, posX, posY, posZ)) {
             riddenByEntity.mountEntity(null);
             if (riddenByEntity instanceof EntityPlayer)
-                ((EntityPlayer) riddenByEntity).addChatComponentMessage(Messages.WRONG_POSE.getComponent());
+                ((EntityPlayer) riddenByEntity).addChatComponentMessage(Messages.INVALID.getComponent());
             kill();
         }
     }

@@ -4,7 +4,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 public enum Messages {
-    WRONG_POSE("wrong_pose"),
+    INVALID("invalid"),
     OCCUPIED("occupied");
     private final String key;
 
