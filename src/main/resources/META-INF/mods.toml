@@ -1,0 +1,9 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "AGPL-3.0-only"
+[[mods]]
+modId = "sittable"
+version = "${file.jarVersion}"
+displayName = "Sittable"
+authors = "Tapio"
+description = "Make blocks in Minecraft sittable!"
