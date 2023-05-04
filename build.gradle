@@ -7,7 +7,7 @@ group = 'committee.nova.sittable.forge'
 version = '1.0.0'
 
 java {
-    archivesBaseName = 'sittable'
+    archivesBaseName = 'Sittable-Forge-1.19.2'
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
