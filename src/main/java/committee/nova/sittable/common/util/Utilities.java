@@ -47,7 +47,7 @@ public class Utilities {
     public static boolean trySit(Level level, BlockPos pos, BlockState state, @Nullable BlockHitResult hit, Player player) {
         final SittableRegistry registry = SittableRegisterEvent.getSittables().get(state.getBlock());
         if (registry == null) return false;
-        final Optional<Vec3> o = registry.offset().apply(state, player, Optional.ofNullable(hit));
+        final Optional<Vec3> o = registry.offset().get(state, player, Optional.ofNullable(hit));
         if (o.isEmpty()) return false;
         final Vec3 vec = o.get();
         if (Utilities.isOccupied(level, pos, vec)) {
