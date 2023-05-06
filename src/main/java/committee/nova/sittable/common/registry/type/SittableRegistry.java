@@ -10,14 +10,14 @@ import java.util.Optional;
 
 public class SittableRegistry {
     @FunctionalInterface
-    public interface OffsetStrategy {
+    public interface OffsetProvider {
         Optional<Vec3d> apply(IBlockState state, EntityPlayer player, EnumFacing face);
     }
 
     private final Block block;
-    private final OffsetStrategy offset;
+    private final OffsetProvider offset;
 
-    public SittableRegistry(Block block, OffsetStrategy offset) {
+    public SittableRegistry(Block block, OffsetProvider offset) {
         this.block = block;
         this.offset = offset;
     }
@@ -26,7 +26,7 @@ public class SittableRegistry {
         return block;
     }
 
-    public OffsetStrategy getOffset() {
+    public OffsetProvider getOffset() {
         return offset;
     }
 }
