@@ -36,14 +36,6 @@ minecraft {
     runDir = "run"
 }
 
-repositories {
-
-}
-
-dependencies {
-
-}
-
 processResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     // this will ensure that this task is redone when the versions change.
@@ -61,10 +53,21 @@ processResources {
     }
 }
 
+task devJar(type: Jar) {
+    dependsOn jar
+
+    classifier = 'dev'
+    // copy the contents of the main jar
+    from zipTree(tasks.jar.archivePath)
+
+    manifest = tasks.jar.manifest
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             artifactId = 'sittable-1.7.10'
+            artifact devJar
             from components.java
         }
     }
