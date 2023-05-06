@@ -1,6 +1,5 @@
 package committee.nova.sittable.common.registry.type;
 
-import com.mojang.datafixers.util.Function3;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,12 +9,17 @@ import net.minecraft.util.math.vector.Vector3d;
 import java.util.Optional;
 
 public class SittableRegistry {
+    public interface OffsetProvider {
+        @SuppressWarnings("all")
+        Optional<Vector3d> get(BlockState state, PlayerEntity player, Optional<BlockRayTraceResult> hit);
+    }
+
     private final Block block;
-    private final Function3<BlockState, PlayerEntity, Optional<BlockRayTraceResult>, Optional<Vector3d>> offset;
+    private final OffsetProvider offset;
 
     public SittableRegistry(
             Block block,
-            Function3<BlockState, PlayerEntity, Optional<BlockRayTraceResult>, Optional<Vector3d>> offset) {
+            OffsetProvider offset) {
         this.block = block;
         this.offset = offset;
     }
@@ -28,7 +32,7 @@ public class SittableRegistry {
         return block;
     }
 
-    public Function3<BlockState, PlayerEntity, Optional<BlockRayTraceResult>, Optional<Vector3d>> getOffset() {
+    public OffsetProvider getOffset() {
         return offset;
     }
 }

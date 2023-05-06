@@ -47,7 +47,7 @@ public class Utilities {
     public static boolean trySit(World level, BlockPos pos, BlockState state, @Nullable BlockRayTraceResult hit, PlayerEntity player) {
         final SittableRegistry registry = SittableRegisterEvent.getSittables().get(state.getBlock());
         if (registry == null) return false;
-        final Optional<Vector3d> o = registry.getOffset().apply(state, player, Optional.ofNullable(hit));
+        final Optional<Vector3d> o = registry.getOffset().get(state, player, Optional.ofNullable(hit));
         if (!o.isPresent()) return false;
         final Vector3d vec = o.get();
         if (Utilities.isOccupied(level, pos, vec)) {
