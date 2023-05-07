@@ -68,7 +68,7 @@ public class SittableEntity extends Entity {
 
     @Override
     public double getMountedYOffset() {
-        return .0;
+        return -.25;
     }
 
     @Override
