@@ -20,7 +20,9 @@ repositories {
 ```groovy
 dependencies {
     //...
-    implementation("committee.nova.sittable.forge:sittable-${minecraft_version}:${mod_version}")
+    implementation(project.dependencies.create("committee.nova.sittable.forge:sittable-${minecraft_version}:${mod_version}") {
+        transitive = false
+    })
 }
 ```
 
@@ -29,7 +31,9 @@ dependencies {
 ```groovy
 dependencies {
     //...
-    implementation("committee.nova.sittable.forge:sittable-1.7.10:${mod_version}:dev")
+    implementation(project.dependencies.create("committee.nova.sittable.forge:sittable-1.7.10:${mod_version}:dev") {
+        transitive = false
+    })
 }
 ```
 
