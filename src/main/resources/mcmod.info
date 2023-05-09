@@ -1,0 +1,13 @@
+[
+  {
+    "modid": "sittable",
+    "name": "Sittable",
+    "description": "Make your blocks sittable!",
+    "version": "${version}",
+    "mcversion": "1.6.4",
+    "url": "https://github.com/Nova-Committee/Sittable",
+    "authorList": [
+      "Tapio"
+    ]
+  }
+]
