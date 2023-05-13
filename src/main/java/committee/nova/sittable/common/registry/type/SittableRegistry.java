@@ -17,9 +17,7 @@ public class SittableRegistry {
     private final Block block;
     private final OffsetProvider offset;
 
-    public SittableRegistry(
-            Block block,
-            OffsetProvider offset) {
+    public SittableRegistry(Block block, OffsetProvider offset) {
         this.block = block;
         this.offset = offset;
     }
